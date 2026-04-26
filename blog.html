@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทความสุขภาพ — Jok2Go</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">📖 บทความโภชนาการสุขภาพ</span>
+    <span class="ticker-item">🥗 เคล็ดลับกินดี อยู่ดี</span>
+    <span class="ticker-item">💪 จาก Jok2Go ถึงคุณ</span>
+    <span class="ticker-item">🌿 วิทยาศาสตร์พิสูจน์แล้ว</span>
+    <span class="ticker-item">🏃 อาหารที่นักฟิตเนสเลือก</span>
+    <span class="ticker-item">📖 บทความโภชนาการสุขภาพ</span>
+    <span class="ticker-item">🥗 เคล็ดลับกินดี อยู่ดี</span>
+    <span class="ticker-item">💪 จาก Jok2Go ถึงคุณ</span>
+    <span class="ticker-item">🌿 วิทยาศาสตร์พิสูจน์แล้ว</span>
+    <span class="ticker-item">🏃 อาหารที่นักฟิตเนสเลือก</span>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-bowl">🍚</div>
+      Jok<span class="brand-2">2</span>Go
+    </a>
+    <ul class="nav-links">
+      <li><a href="menu.html">เมนู</a></li>
+      <li><a href="calories.html">คำนวณแคลอรี</a></li>
+      <li><a href="blog.html" class="active">บทความ</a></li>
+      <li><a href="contact.html">ติดต่อ</a></li>
+      <li><a href="contact.html" class="nav-cta">สั่งผ่าน LINE →</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle">☰</button>
+  </div>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">หน้าแรก</a> <span style="color:rgba(255,255,255,0.3)">›</span> บทความ
+  </div>
+  <h1>📖 บทความสุขภาพ</h1>
+  <p>ความรู้ด้านโภชนาการ เคล็ดลับสุขภาพ และเรื่องราวจาก Jok2Go</p>
+</div>
+
+<!-- Wave down -->
+<svg class="wave-divider" viewBox="0 0 1440 40" preserveAspectRatio="none">
+  <path d="M0,40 C360,0 1080,0 1440,40 L1440,0 L0,0 Z" fill="var(--forest-deep)"/>
+</svg>
+
+<!-- Blog Section -->
+<section class="blog-section section">
+  <div class="container">
+
+    <!-- Filter tabs -->
+    <div class="filter-bar" id="blogTabs">
+      <button class="filter-btn active" onclick="filterBlog('all',this)">ทั้งหมด</button>
+      <button class="filter-btn" onclick="filterBlog('nutrition',this)">🥗 โภชนาการ</button>
+      <button class="filter-btn" onclick="filterBlog('fitness',this)">💪 ฟิตเนส</button>
+      <button class="filter-btn" onclick="filterBlog('story',this)">📖 เรื่องเล่า</button>
+    </div>
+
+    <div class="blog-grid" id="blogGrid">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- CTA Strip -->
+<div class="cta-strip">
+  <h2>อ่านแล้วหิวโจ๊กมั้ย? 🍚</h2>
+  <p>สั่งง่าย ส่งเร็ว ส่งตรงเวลา — ทุกวัน</p>
+  <div class="cta-btns">
+    <a href="menu.html" class="btn btn-outline-white">🍜 ดูเมนูทั้งหมด</a>
+    <a href="contact.html" class="btn btn-orange">💬 สั่งผ่าน LINE</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">🍚 Jok<span class="orange">2</span>Go</div>
+      <p>โจ๊กสุขภาพคุณภาพสูง<br>วัตถุดิบธรรมชาติ 100%<br>ส่งตรงถึงบ้านทุกเช้า</p>
+    </div>
+    <div>
+      <h4>เมนู</h4>
+      <ul>
+        <li><a href="menu.html">เมนูทั้งหมด</a></li>
+        <li><a href="calories.html">คำนวณแคลอรี</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>ข้อมูล</h4>
+      <ul>
+        <li><a href="blog.html">บทความสุขภาพ</a></li>
+        <li><a href="contact.html">ติดต่อ / สั่งซื้อ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>ช่องทาง</h4>
+      <ul>
+        <li><a href="#">LINE: @jok2go</a></li>
+        <li><a href="#">IG: @jok2go</a></li>
+        <li><a href="#">FB: Jok2Go</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2569 Jok2Go. All rights reserved.</span>
+    <div class="socials">
+      <a href="#" class="social-btn">💬</a>
+      <a href="#" class="social-btn">📸</a>
+      <a href="#" class="social-btn">👍</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const POSTS = [
+  { cat:'nutrition', emoji:'🌾', tag:'โภชนาการ', date:'20 เม.ย. 2569', read:'5 นาที',
+    title:'โจ๊กกับการลดน้ำหนัก — วิทยาศาสตร์พิสูจน์แล้ว',
+    desc:'ทำไมนักโภชนาการถึงแนะนำโจ๊กเป็นอาหารเช้าสำหรับคนควบคุมน้ำหนัก' },
+  { cat:'fitness', emoji:'💪', tag:'ฟิตเนส', date:'15 เม.ย. 2569', read:'4 นาที',
+    title:'กินโจ๊กก่อน/หลังออกกำลังกาย ต่างกันยังไง?',
+    desc:'เวลากินส่งผลต่อ performance และ recovery อย่างไร — คำตอบจาก PT มืออาชีพ' },
+  { cat:'story', emoji:'🧑‍🍳', tag:'เรื่องเล่า', date:'10 เม.ย. 2569', read:'6 นาที',
+    title:'เราเลือกข้าวยังไง? เรื่องที่คุณอาจไม่รู้',
+    desc:'กระบวนการคัดเลือกข้าวจากเกษตรกรรายย่อยที่เราใส่ใจทุกขั้นตอน' },
+  { cat:'nutrition', emoji:'🥗', tag:'โภชนาการ', date:'5 เม.ย. 2569', read:'7 นาที',
+    title:'Protein ในโจ๊กแต่ละชาม — เพียงพอไหมสำหรับคนสร้างกล้าม?',
+    desc:'วิเคราะห์โปรตีนในแต่ละเมนู Jok2Go เทียบกับค่า DRI ที่ WHO แนะนำ' },
+  { cat:'fitness', emoji:'🏃', tag:'ฟิตเนส', date:'1 เม.ย. 2569', read:'3 นาที',
+    title:'5 เหตุผลที่นักวิ่งกินโจ๊กเป็นมื้อเช้า',
+    desc:'Glycemic index ต่ำ, ย่อยง่าย, ไม่หนักท้อง — perfect pre-run meal' },
+  { cat:'story', emoji:'🌿', tag:'เรื่องเล่า', date:'28 มี.ค. 2569', read:'5 นาที',
+    title:'Journey ของ Jok2Go — จากไอเดียสู่โจ๊กสุขภาพ',
+    desc:'เรื่องราวการเริ่มต้นของ Jok2Go และความฝันที่อยากเปลี่ยนอาหารเช้าของคนไทย' },
+];
+
+let currentCat = 'all';
+
+function filterBlog(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('#blogTabs .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBlog();
+}
+
+function renderBlog() {
+  const items = currentCat === 'all' ? POSTS : POSTS.filter(p => p.cat === currentCat);
+  document.getElementById('blogGrid').innerHTML = items.map(p => `
+    <div class="blog-card anim">
+      <div class="blog-img">${p.emoji}</div>
+      <div class="blog-body">
+        <span class="blog-tag">${p.tag}</span>
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="blog-meta">
+          <span>📅 ${p.date}</span>
+          <span>⏱ ${p.read}</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.querySelectorAll('.blog-card.anim').forEach(el => {
+    if (window._blogObserver) window._blogObserver.observe(el);
+  });
+}
+
+window._blogObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); window._blogObserver.unobserve(e.target); }});
+}, { threshold: 0.1 });
+
+renderBlog();
+</script>
+</body>
+</html>

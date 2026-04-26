@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เมนูทั้งหมด — Jok2Go</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">🍚 โจ๊กสุขภาพ ส่งถึงบ้าน</span>
+    <span class="ticker-item">🌿 No MSG ไม่ใส่สี ไม่ใส่วัตถุกันเสีย</span>
+    <span class="ticker-item">💪 โปรตีนสูง ย่อยง่าย</span>
+    <span class="ticker-item">🚀 ส่งใน 45 นาที</span>
+    <span class="ticker-item">🥗 วัตถุดิบธรรมชาติ 100%</span>
+    <span class="ticker-item">🍚 โจ๊กสุขภาพ ส่งถึงบ้าน</span>
+    <span class="ticker-item">🌿 No MSG ไม่ใส่สี ไม่ใส่วัตถุกันเสีย</span>
+    <span class="ticker-item">💪 โปรตีนสูง ย่อยง่าย</span>
+    <span class="ticker-item">🚀 ส่งใน 45 นาที</span>
+    <span class="ticker-item">🥗 วัตถุดิบธรรมชาติ 100%</span>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-brand">
+      <div class="brand-bowl">🍚</div>
+      Jok<span class="brand-2">2</span>Go
+    </a>
+    <ul class="nav-links">
+      <li><a href="menu.html" class="active">เมนู</a></li>
+      <li><a href="calories.html">คำนวณแคลอรี</a></li>
+      <li><a href="blog.html">บทความ</a></li>
+      <li><a href="contact.html">ติดต่อ</a></li>
+      <li><a href="contact.html" class="nav-cta">สั่งผ่าน LINE →</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle">☰</button>
+  </div>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">หน้าแรก</a> <span style="color:rgba(255,255,255,0.3)">›</span> เมนู
+  </div>
+  <h1>🍜 เมนูทั้งหมด</h1>
+  <p>ทุกเมนูปรุงสดทุกวัน — วัตถุดิบธรรมชาติ ครบทุก macro</p>
+</div>
+
+<!-- Wave down -->
+<svg class="wave-divider" viewBox="0 0 1440 40" preserveAspectRatio="none">
+  <path d="M0,40 C360,0 1080,0 1440,40 L1440,0 L0,0 Z" fill="var(--forest-deep)"/>
+</svg>
+
+<!-- Menu Section -->
+<section class="menu-section section">
+  <div class="container">
+
+    <div class="filter-bar" id="menuTabs">
+      <button class="filter-btn active" onclick="filterMenu('all',this)">ทั้งหมด</button>
+      <button class="filter-btn" onclick="filterMenu('low-cal',this)">🥗 Low Calorie</button>
+      <button class="filter-btn" onclick="filterMenu('high-protein',this)">💪 High Protein</button>
+      <button class="filter-btn" onclick="filterMenu('vegan',this)">🌱 Vegan</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- Wave up -->
+<svg class="wave-divider" viewBox="0 0 1440 40" preserveAspectRatio="none">
+  <path d="M0,0 C360,40 1080,40 1440,0 L1440,40 L0,40 Z" fill="var(--forest-deep)"/>
+</svg>
+
+<!-- Toppings Section (dark bg) -->
+<section class="why-section">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-tag" style="color:var(--sage)">Toppings</span>
+      <h2 style="color:var(--white)">🥚 เพิ่มเติมตามใจ</h2>
+      <p style="color:var(--sage)">สั่งเพิ่มได้เลย — ทุกอย่างมีข้อมูลแคลอรีครบ</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card anim">
+        <div class="why-icon">🥚</div>
+        <h3>ไข่ไก่สด</h3>
+        <p>70 kcal | P:6g F:5g</p>
+      </div>
+      <div class="why-card anim">
+        <div class="why-icon">🫚</div>
+        <h3>น้ำมันขิง</h3>
+        <p>45 kcal | F:4g</p>
+      </div>
+      <div class="why-card anim">
+        <div class="why-icon">🧅</div>
+        <h3>กระเทียมเจียว</h3>
+        <p>30 kcal | C:3g</p>
+      </div>
+      <div class="why-card anim">
+        <div class="why-icon">🫘</div>
+        <h3>ถั่วดำต้ม</h3>
+        <p>40 kcal | P:3g Fiber:4g</p>
+      </div>
+      <div class="why-card anim" style="grid-column:span 1">
+        <div class="why-icon">🌿</div>
+        <h3>ผักชีลาว</h3>
+        <p>5 kcal | Vitamin C</p>
+      </div>
+      <div class="why-card anim">
+        <div class="why-icon">🌶️</div>
+        <h3>พริกสด</h3>
+        <p>10 kcal | Capsaicin</p>
+      </div>
+      <div class="why-card anim">
+        <div class="why-icon">🍵</div>
+        <h3>ชาเขียวร้อน</h3>
+        <p>5 kcal | Antioxidant</p>
+      </div>
+      <div class="why-card anim">
+        <div class="why-icon">🧃</div>
+        <h3>น้ำขิงผึ้ง</h3>
+        <p>60 kcal | อุ่นกระเพาะ</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave down -->
+<svg class="wave-divider" viewBox="0 0 1440 40" preserveAspectRatio="none">
+  <path d="M0,0 C360,40 1080,40 1440,0 L1440,40 L0,40 Z" fill="var(--forest-deep)"/>
+  <path d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z" fill="var(--cream)"/>
+</svg>
+
+<!-- CTA Strip -->
+<div class="cta-strip">
+  <h2>สนใจสั่งเลยไหม? 👇</h2>
+  <p>สั่งง่ายผ่าน LINE — ส่งถึงบ้านภายใน 45 นาที</p>
+  <div class="cta-btns">
+    <a href="calories.html" class="btn btn-outline-white">🔢 คำนวณแคลอรีก่อน</a>
+    <a href="contact.html" class="btn btn-orange">💬 สั่งผ่าน LINE</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">🍚 Jok<span class="orange">2</span>Go</div>
+      <p>โจ๊กสุขภาพคุณภาพสูง<br>วัตถุดิบธรรมชาติ 100%<br>ส่งตรงถึงบ้านทุกเช้า</p>
+    </div>
+    <div>
+      <h4>เมนู</h4>
+      <ul>
+        <li><a href="menu.html">เมนูทั้งหมด</a></li>
+        <li><a href="calories.html">คำนวณแคลอรี</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>ข้อมูล</h4>
+      <ul>
+        <li><a href="blog.html">บทความสุขภาพ</a></li>
+        <li><a href="contact.html">ติดต่อ / สั่งซื้อ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>ช่องทาง</h4>
+      <ul>
+        <li><a href="#">LINE: @jok2go</a></li>
+        <li><a href="#">IG: @jok2go</a></li>
+        <li><a href="#">FB: Jok2Go</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2569 Jok2Go. All rights reserved.</span>
+    <div class="socials">
+      <a href="#" class="social-btn">💬</a>
+      <a href="#" class="social-btn">📸</a>
+      <a href="#" class="social-btn">👍</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const MENU_DATA = [
+  { id:'j1', tags:['high-protein'], emoji:'🍚', badge:'Best Seller', badgeClass:'',
+    name:'โจ๊กไก่ออร์แกนิก', cal:280, protein:22, carb:38, fat:5,
+    desc:'ไก่สับออร์แกนิก ขิงสด ผักชี ไข่ไก่สด' },
+  { id:'j2', tags:['high-protein','low-cal'], emoji:'🐟', badge:'Healthy Pick', badgeClass:'',
+    name:'โจ๊กปลาทับทิม', cal:240, protein:26, carb:30, fat:4,
+    desc:'ปลาทับทิมสดแล่ ขิงซอย น้ำมันหอย — Omega-3 สูง' },
+  { id:'j3', tags:[], emoji:'🐷', badge:'',
+    name:'โจ๊กหมูสับ', cal:310, protein:20, carb:40, fat:8,
+    desc:'หมูสับ กระเทียมเจียว น้ำมันหอยน้อย' },
+  { id:'j4', tags:['high-protein'], emoji:'🦐', badge:'Premium', badgeClass:'orange',
+    name:'โจ๊กกุ้งสด', cal:260, protein:24, carb:32, fat:4,
+    desc:'กุ้งแม่น้ำสด ขิง เนย — รสหวานกุ้งธรรมชาติ' },
+  { id:'j5', tags:['low-cal','high-protein'], emoji:'🥚', badge:'Low Cal', badgeClass:'',
+    name:'โจ๊กไข่ขาว Detox', cal:210, protein:20, carb:28, fat:2,
+    desc:'ไข่ขาว 3 ฟอง สมุนไพร — คุม macro เป๊ะ' },
+  { id:'j6', tags:['vegan','low-cal'], emoji:'🌱', badge:'Vegan', badgeClass:'',
+    name:'โจ๊กเต้าหู้ Vegan', cal:220, protein:12, carb:36, fat:4,
+    desc:'เต้าหู้ไหม เห็ดรวม ซอสถั่วเหลือง' },
+  { id:'j7', tags:['low-cal'], emoji:'🫛', badge:'New', badgeClass:'orange',
+    name:'โจ๊กผักรวม Superfood', cal:190, protein:8, carb:34, fat:2,
+    desc:'บร็อกโคลี แครอท ผักโขม — Vitamin & Antioxidant สูง' },
+  { id:'j8', tags:['high-protein'], emoji:'🐂', badge:'',
+    name:'โจ๊กเนื้อวัว', cal:330, protein:28, carb:38, fat:9,
+    desc:'เนื้อวัวสไลด์ กระเทียมดำ ซอสเทอริยากิ' },
+];
+
+let currentFilter = 'all';
+
+function filterMenu(tag, btn) {
+  currentFilter = tag;
+  document.querySelectorAll('#menuTabs .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu();
+}
+
+function renderMenu() {
+  const items = currentFilter === 'all' ? MENU_DATA : MENU_DATA.filter(m => m.tags.includes(currentFilter));
+  document.getElementById('menuGrid').innerHTML = items.map(item => `
+    <div class="menu-card anim">
+      <div class="menu-card-img">
+        ${item.emoji}
+        ${item.badge ? `<span class="menu-badge ${item.badgeClass||''}">${item.badge}</span>` : ''}
+      </div>
+      <div class="menu-card-body">
+        <div class="kcal-pill">🔥 ${item.cal} kcal</div>
+        <h3>${item.name}</h3>
+        <p class="desc">${item.desc}</p>
+        <div class="macro-strip">
+          <div class="ms-cell"><div class="ms-val">${item.protein}g</div><div class="ms-lbl">โปรตีน</div></div>
+          <div class="ms-cell"><div class="ms-val">${item.carb}g</div><div class="ms-lbl">คาร์บ</div></div>
+          <div class="ms-cell"><div class="ms-val">${item.fat}g</div><div class="ms-lbl">ไขมัน</div></div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Re-observe new cards for animation
+  document.querySelectorAll('.menu-card.anim').forEach(el => {
+    if (window._menuObserver) window._menuObserver.observe(el);
+  });
+}
+
+// Intersection observer for menu cards
+window._menuObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); window._menuObserver.unobserve(e.target); } });
+}, { threshold: 0.1 });
+
+renderMenu();
+</script>
+</body>
+</html>
