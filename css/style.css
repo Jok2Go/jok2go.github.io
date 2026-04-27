@@ -500,7 +500,7 @@ a:hover { color: var(--orange); }
 
 /* ══ Scrolling ticker ══ */
 .ticker-wrap {
-  background: var(--orange); padding: 10px 0; overflow: hidden;
+  background: var(--wine-deep); padding: 10px 0; overflow: hidden;
 }
 .ticker-track {
   display: flex; gap: 0; white-space: nowrap;

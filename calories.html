@@ -5,6 +5,208 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>คำนวณแคลอรี — Jok2Go</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── BMR Section ── */
+    .bmr-section {
+      background: var(--cream);
+      padding: 56px 0 40px;
+    }
+    .bmr-card {
+      background: var(--parchment);
+      border: 1.5px solid var(--cream-dark);
+      border-radius: var(--radius-lg);
+      padding: 36px 40px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .bmr-card h2 {
+      color: var(--wine-deep);
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+    .bmr-card > p {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+    .bmr-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .bmr-field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--wine-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .bmr-field input,
+    .bmr-field select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--cream-dark);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      font-family: 'Sarabun', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      transition: var(--transition);
+      outline: none;
+    }
+    .bmr-field input:focus,
+    .bmr-field select:focus {
+      border-color: var(--wine-mid);
+      background: var(--white);
+    }
+    .bmr-calc-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--wine-deep);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Mitr', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 24px;
+    }
+    .bmr-calc-btn:hover {
+      background: var(--wine);
+      transform: translateY(-1px);
+    }
+    .bmr-result {
+      display: none;
+      background: var(--wine-deep);
+      border-radius: var(--radius);
+      padding: 28px;
+      color: var(--white);
+    }
+    .bmr-result.show { display: block; }
+    .bmr-result-top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .bmr-big {
+      text-align: center;
+    }
+    .bmr-big-num {
+      font-family: 'Mitr', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .bmr-big-lbl {
+      font-size: 0.78rem;
+      color: var(--rose);
+      margin-top: 4px;
+    }
+    .bmr-divider {
+      width: 1px;
+      height: 60px;
+      background: rgba(255,255,255,0.15);
+    }
+    .bmr-info {
+      flex: 1;
+    }
+    .bmr-info p {
+      color: var(--rose);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .bmr-info strong {
+      color: var(--white);
+    }
+    .bmr-meals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .bmr-meal-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .bmr-meal-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .bmr-meal-name { font-size: 0.78rem; color: var(--rose); margin-bottom: 8px; }
+    .bmr-meal-kcal {
+      font-family: 'Mitr', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--orange);
+    }
+    .bmr-meal-unit { font-size: 0.7rem; color: var(--rose); }
+    .bmr-jok-tip {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(224,123,26,0.15);
+      border: 1px solid rgba(224,123,26,0.3);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+    }
+    .bmr-jok-tip strong { color: var(--orange); }
+    /* Target banner (dynamic) */
+    .target-banner {
+      background: var(--orange-pale);
+      border-bottom: 3px solid var(--orange);
+    }
+    /* ── Calc section tweaks ── */
+    .empty-state { text-align: center; padding: 24px 0; }
+    .empty-state .ei { font-size: 2.8rem; margin-bottom: 8px; }
+    .order-list { max-height: 280px; overflow-y: auto; }
+    .order-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.85rem;
+    }
+    .order-row:last-child { border-bottom: none; }
+    .or-name { color: var(--white); flex: 1; }
+    .or-kcal { color: var(--rose); font-size: 0.78rem; margin-right: 8px; }
+    .or-remove { cursor: pointer; color: rgba(255,255,255,0.4); font-size: 1rem; padding: 2px 6px; }
+    .or-remove:hover { color: #FF6B6B; }
+    /* Comparison cards */
+    .cmp-card {
+      background: var(--parchment);
+      border: 1.5px solid var(--cream-dark);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .cmp-card.jok2go-card {
+      border-color: var(--orange);
+      background: var(--orange-pale);
+    }
+    .cmp-icon { font-size: 2rem; margin-bottom: 8px; }
+    .cmp-name { font-size: 0.82rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .cmp-kcal {
+      font-family: 'Mitr', sans-serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--wine-deep); margin-bottom: 2px;
+    }
+    .cmp-card.jok2go-card .cmp-kcal { color: var(--orange); }
+    .cmp-unit { font-size: 0.7rem; color: var(--ink-muted); }
+    .cmp-badge {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.68rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      background: var(--orange); color: var(--white);
+    }
+  </style>
 </head>
 <body>
 
@@ -48,7 +250,7 @@
     <a href="index.html">หน้าแรก</a> <span style="color:rgba(255,255,255,0.3)">›</span> คำนวณแคลอรี
   </div>
   <h1>🔢 คำนวณแคลอรีของคุณ</h1>
-  <p>เลือกเมนูที่อยากกิน ดูแคลอรีรวม แล้ว balance ชีวิตได้เลย</p>
+  <p>รู้แคลอรีที่ร่างกายต้องการ แล้วเลือกเมนู Jok2Go ให้พอดีกับเป้าหมายของคุณ</p>
 </div>
 
 <!-- Wave down -->
@@ -56,24 +258,109 @@
   <path d="M0,40 C360,0 1080,0 1440,40 L1440,0 L0,0 Z" fill="var(--wine-deep)"/>
 </svg>
 
-<!-- Info banner -->
-<div style="background:var(--orange-pale); border-bottom:3px solid var(--orange)">
+<!-- ═══ STEP 1: BMR / TDEE Calculator ═══ -->
+<section class="bmr-section">
+  <div class="container">
+    <div class="sec-head" style="margin-bottom:32px">
+      <span class="sec-tag">ขั้นที่ 1</span>
+      <h2>คำนวณแคลอรีที่ร่างกายต้องการ</h2>
+      <p>กรอกข้อมูลของคุณเพื่อรู้แคลอรีเป้าหมายต่อวันและต่อมื้อ</p>
+    </div>
+
+    <div class="bmr-card">
+      <div class="bmr-form">
+        <div class="bmr-field">
+          <label>เพศ</label>
+          <select id="bmrGender">
+            <option value="male">ชาย</option>
+            <option value="female">หญิง</option>
+          </select>
+        </div>
+        <div class="bmr-field">
+          <label>อายุ (ปี)</label>
+          <input type="number" id="bmrAge" placeholder="เช่น 30" min="10" max="100" value="30">
+        </div>
+        <div class="bmr-field">
+          <label>น้ำหนัก (กก.)</label>
+          <input type="number" id="bmrWeight" placeholder="เช่น 65" min="30" max="200" value="65">
+        </div>
+        <div class="bmr-field">
+          <label>ส่วนสูง (ซม.)</label>
+          <input type="number" id="bmrHeight" placeholder="เช่น 170" min="100" max="250" value="170">
+        </div>
+        <div class="bmr-field" style="grid-column: 1 / -1">
+          <label>ระดับกิจกรรม</label>
+          <select id="bmrActivity">
+            <option value="1.2">นั่งทำงานส่วนใหญ่ (ออกกำลังกายน้อยมาก)</option>
+            <option value="1.375">ออกกำลังกาย 1–3 วัน/สัปดาห์</option>
+            <option value="1.55" selected>ออกกำลังกาย 3–5 วัน/สัปดาห์</option>
+            <option value="1.725">ออกกำลังกาย 6–7 วัน/สัปดาห์</option>
+            <option value="1.9">งานหนัก / ออกกำลังกาย 2 ครั้ง/วัน</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="bmr-calc-btn" onclick="calcBMR()">🔢 คำนวณแคลอรีที่ต้องการ</button>
+
+      <div class="bmr-result" id="bmrResult">
+        <div class="bmr-result-top">
+          <div class="bmr-big">
+            <div class="bmr-big-num" id="tdeeNum">—</div>
+            <div class="bmr-big-lbl">kcal ต่อวัน (TDEE)</div>
+          </div>
+          <div class="bmr-divider"></div>
+          <div class="bmr-info">
+            <p id="bmrDesc">—</p>
+          </div>
+        </div>
+        <div class="bmr-meals">
+          <div class="bmr-meal-card">
+            <div class="bmr-meal-icon">🌅</div>
+            <div class="bmr-meal-name">มื้อเช้า (25%)</div>
+            <div class="bmr-meal-kcal" id="mealBreakfast">—</div>
+            <div class="bmr-meal-unit">kcal</div>
+          </div>
+          <div class="bmr-meal-card">
+            <div class="bmr-meal-icon">☀️</div>
+            <div class="bmr-meal-name">มื้อกลางวัน (40%)</div>
+            <div class="bmr-meal-kcal" id="mealLunch">—</div>
+            <div class="bmr-meal-unit">kcal</div>
+          </div>
+          <div class="bmr-meal-card">
+            <div class="bmr-meal-icon">🌙</div>
+            <div class="bmr-meal-name">มื้อเย็น (35%)</div>
+            <div class="bmr-meal-kcal" id="mealDinner">—</div>
+            <div class="bmr-meal-unit">kcal</div>
+          </div>
+        </div>
+        <div class="bmr-jok-tip" id="jokTip"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STEP 2: Info banner (updates dynamically) ═══ -->
+<div class="target-banner">
   <div class="container" style="padding:14px 28px; display:flex; gap:14px; align-items:center; flex-wrap:wrap">
     <span style="font-size:1.4rem">💡</span>
-    <div style="font-size:0.9rem">
-      <strong style="color:var(--orange)">เป้าหมายแคลอรีต่อมื้อที่แนะนำ:</strong>
-      <span style="color:var(--ink); margin-left:8px">
-        ลดน้ำหนัก <strong>300–400 kcal</strong> &nbsp;|&nbsp;
-        รักษาน้ำหนัก <strong>400–550 kcal</strong> &nbsp;|&nbsp;
-        เพิ่มกล้ามเนื้อ <strong>550–700 kcal</strong>
+    <div style="font-size:0.9rem" id="targetBanner">
+      <strong style="color:var(--orange)">ขั้นที่ 2 — เลือกเมนูด้านล่าง:</strong>
+      <span style="color:var(--ink); margin-left:8px" id="targetText">
+        คำนวณแคลอรีส่วนตัวก่อน แล้วเลือกเมนูให้พอดีกับมื้อเช้าของคุณ
       </span>
     </div>
   </div>
 </div>
 
-<!-- Calculator Section -->
+<!-- ═══ STEP 2: Menu Calorie Calculator ═══ -->
 <section class="calc-section section-sm">
   <div class="container">
+
+    <div class="sec-head" style="margin-bottom:32px">
+      <span class="sec-tag">ขั้นที่ 2</span>
+      <h2>เลือกเมนู Jok2Go ของคุณ</h2>
+      <p>กดที่รายการเพื่อเพิ่ม — ระบบจะคำนวณแคลอรีให้อัตโนมัติ</p>
+    </div>
 
     <!-- Filter tabs -->
     <div class="filter-bar" id="catTabs">
@@ -99,13 +386,11 @@
       <div class="result-panel">
         <h3>🛒 รายการที่เลือก</h3>
 
-        <!-- Empty state (sibling to order list — NOT nested inside) -->
         <div class="empty-state" id="emptyState">
           <div class="ei">🍽️</div>
           <p style="color:var(--rose); font-size:0.88rem">ยังไม่ได้เลือกเมนู<br><small>กดเลือกด้านซ้ายได้เลย</small></p>
         </div>
 
-        <!-- Order list (shown when items selected) -->
         <div id="orderList" style="display:none">
           <div class="order-list" id="orderRows"></div>
         </div>
@@ -117,10 +402,15 @@
           <div class="total-unit">kcal</div>
         </div>
 
+        <!-- vs target -->
+        <div id="vsTarget" style="display:none; text-align:center; font-size:0.82rem; color:var(--rose); margin-bottom:12px"></div>
+
         <!-- Gauge -->
         <div class="gauge-area" id="gaugeWrap" style="display:none">
           <div class="gauge-labels">
-            <span>0</span><span>เป้าหมาย 500 kcal</span><span>1000+</span>
+            <span>0</span>
+            <span id="gaugeLabel">เป้าหมาย 500 kcal</span>
+            <span id="gaugeMax">1000+</span>
           </div>
           <div class="gauge-track"><div class="gauge-bar" id="gaugeBar"></div></div>
         </div>
@@ -175,16 +465,15 @@
         <h2>📊 แคลอรีเปรียบเทียบ</h2>
         <p>Jok2Go vs อาหารเช้ายอดนิยมอื่น ๆ</p>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px" id="cmpGrid"></div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px" id="cmpGrid"></div>
     </div>
 
   </div>
 </section>
 
-<!-- ══ Footer Top Strip: Social + Delivery ══ -->
+<!-- ══ Footer Top Strip ══ -->
 <div class="footer-top-strip">
   <div class="fts-inner">
-    <!-- Brand + Social -->
     <div class="fts-left">
       <div class="fts-brand">
         <div class="fts-logo-circle">🍚</div>
@@ -201,7 +490,6 @@
         <a href="#" class="fts-icon" title="LINE">L</a>
       </div>
     </div>
-    <!-- Delivery -->
     <div class="fts-right">
       <div class="fts-delivery-title">สั่งโจ๊ก Delivery</div>
       <div class="fts-delivery-logos">
@@ -282,5 +570,287 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script>
+/* ═══════════════════════════════════════
+   Jok2Go — Calories Page JavaScript
+═══════════════════════════════════════ */
+
+// ── Global state ──────────────────────
+let userTargetKcal = 500; // default breakfast target
+let cart = {};            // { itemId: quantity }
+let currentFilter = 'all';
+
+// ── Menu Data ─────────────────────────
+const MENU = [
+  // โจ๊กหลัก
+  { id:'j1', cat:'jok', emoji:'🍚', name:'โจ๊กไก่ออร์แกนิก',  cal:280, p:22, c:38, f:5,  tags:['Best Seller','High Protein'] },
+  { id:'j2', cat:'jok', emoji:'🐟', name:'โจ๊กปลาทับทิม',      cal:240, p:26, c:30, f:4,  tags:['Omega-3','Low Cal'] },
+  { id:'j3', cat:'jok', emoji:'🥚', name:'โจ๊กไข่ขาว Detox',   cal:210, p:20, c:28, f:2,  tags:['Low Cal','Fitness'] },
+  { id:'j4', cat:'jok', emoji:'🐷', name:'โจ๊กหมูสับ',          cal:310, p:18, c:40, f:8,  tags:['Classic'] },
+  { id:'j5', cat:'jok', emoji:'🍄', name:'โจ๊กเห็ดรวม Vegan',  cal:200, p:8,  c:35, f:3,  tags:['Vegan','Low Cal'] },
+  { id:'j6', cat:'jok', emoji:'🦐', name:'โจ๊กกุ้ง',            cal:260, p:24, c:32, f:4,  tags:['High Protein'] },
+  // Toppings
+  { id:'t1', cat:'topping', emoji:'🥚', name:'ไข่ไก่สด',         cal:70,  p:6,  c:0,  f:5,  tags:[] },
+  { id:'t2', cat:'topping', emoji:'🫚', name:'น้ำมันขิง',         cal:45,  p:0,  c:0,  f:4,  tags:[] },
+  { id:'t3', cat:'topping', emoji:'🧅', name:'กระเทียมเจียว',     cal:30,  p:0,  c:3,  f:0,  tags:[] },
+  { id:'t4', cat:'topping', emoji:'🫘', name:'ถั่วดำต้ม',         cal:40,  p:3,  c:5,  f:0,  tags:['Fiber'] },
+  { id:'t5', cat:'topping', emoji:'🌿', name:'ผักชีลาว',          cal:5,   p:0,  c:0,  f:0,  tags:['Vit C'] },
+  { id:'t6', cat:'topping', emoji:'🌶️', name:'พริกสด',            cal:10,  p:0,  c:2,  f:0,  tags:[] },
+  // เครื่องดื่ม
+  { id:'d1', cat:'drink', emoji:'🍵', name:'ชาเขียวร้อน',        cal:5,   p:0,  c:1,  f:0,  tags:['Antioxidant'] },
+  { id:'d2', cat:'drink', emoji:'🧃', name:'น้ำขิงผึ้ง',          cal:60,  p:0,  c:14, f:0,  tags:['อุ่นท้อง'] },
+  { id:'d3', cat:'drink', emoji:'☕', name:'กาแฟดำ',              cal:5,   p:0,  c:1,  f:0,  tags:[] },
+];
+
+// Comparison data
+const CMP = [
+  { name:'โจ๊กไก่ Jok2Go', emoji:'🍚', cal:280, jok2go:true },
+  { name:'ข้าวมันไก่',      emoji:'🍗', cal:580, jok2go:false },
+  { name:'ก๋วยเตี๋ยว',      emoji:'🍜', cal:420, jok2go:false },
+  { name:'ข้าวผัด',         emoji:'🍳', cal:520, jok2go:false },
+  { name:'แซนวิชไข่',       emoji:'🥪', cal:350, jok2go:false },
+  { name:'โดนัท 1 ชิ้น',   emoji:'🍩', cal:300, jok2go:false },
+];
+
+// Fun facts
+const FACTS = [
+  '🌿 โจ๊ก Jok2Go ใช้ข้าวหักอ้วน ย่อยง่ายกว่าข้าวสวยถึง 40%',
+  '💧 ความชื้นสูงในโจ๊กช่วยให้อิ่มนานขึ้นโดยใช้แคลอรีน้อยกว่า',
+  '🏃 วิ่ง 30 นาทีเผาผลาญได้ประมาณ 300 kcal — โจ๊ก 1 ชามพอดี!',
+  '🧬 โปรตีนในโจ๊กไก่ช่วยสร้างกล้ามเนื้อหลังออกกำลังกาย',
+  '🌾 ขิงสดในโจ๊กช่วยกระตุ้นระบบเผาผลาญและลดการอักเสบ',
+];
+
+// ── BMR / TDEE Calculator ──────────────
+function calcBMR() {
+  const gender   = document.getElementById('bmrGender').value;
+  const age      = parseInt(document.getElementById('bmrAge').value) || 30;
+  const weight   = parseFloat(document.getElementById('bmrWeight').value) || 65;
+  const height   = parseFloat(document.getElementById('bmrHeight').value) || 170;
+  const activity = parseFloat(document.getElementById('bmrActivity').value);
+
+  // Mifflin-St Jeor
+  let bmr = 10 * weight + 6.25 * height - 5 * age;
+  bmr += (gender === 'male') ? 5 : -161;
+  const tdee = Math.round(bmr * activity);
+
+  const breakfast = Math.round(tdee * 0.25);
+  const lunch     = Math.round(tdee * 0.40);
+  const dinner    = Math.round(tdee * 0.35);
+
+  // Update UI
+  document.getElementById('tdeeNum').textContent       = tdee.toLocaleString();
+  document.getElementById('mealBreakfast').textContent  = breakfast;
+  document.getElementById('mealLunch').textContent      = lunch;
+  document.getElementById('mealDinner').textContent     = dinner;
+
+  // Description
+  let goal = '';
+  if      (tdee < 1600) goal = 'ร่างกายต้องการพลังงานค่อนข้างน้อย เน้นอาหารคุณภาพสูง';
+  else if (tdee < 2000) goal = 'ระดับพลังงานปกติ เหมาะสำหรับการรักษาน้ำหนัก';
+  else if (tdee < 2500) goal = 'ระดับพลังงานปานกลาง-สูง เหมาะสำหรับคนที่กระฉับกระเฉง';
+  else                  goal = 'ระดับพลังงานสูง ต้องการอาหารที่มีคุณค่าโภชนาการครบ';
+
+  document.getElementById('bmrDesc').innerHTML =
+    `<strong>BMR ของคุณ: ${Math.round(bmr).toLocaleString()} kcal/วัน</strong><br>${goal}`;
+
+  // Jok2Go tip
+  const pct = Math.round((280 / breakfast) * 100);
+  document.getElementById('jokTip').innerHTML =
+    `🍚 <strong>โจ๊กไก่ออร์แกนิก (280 kcal)</strong> คิดเป็น <strong>${pct}%</strong> ของมื้อเช้าที่คุณควรได้รับ — ` +
+    `เติมด้วย ไข่ไก่สด (+70 kcal) หรือ ถั่วดำต้ม (+40 kcal) ให้ครบเป้าหมาย <strong>${breakfast} kcal</strong>`;
+
+  // Show result
+  document.getElementById('bmrResult').classList.add('show');
+
+  // Update target banner & gauge
+  userTargetKcal = breakfast;
+  document.getElementById('targetText').textContent =
+    `มื้อเช้าของคุณ = ${breakfast} kcal — เลือกเมนูด้านล่างให้ใกล้เป้าหมายนี้`;
+  document.getElementById('gaugeLabel').textContent = `เป้าหมาย ${breakfast} kcal`;
+  document.getElementById('gaugeMax').textContent   = `${Math.round(breakfast * 2)}+`;
+
+  updateResult();
+}
+
+// ── Render menu items ──────────────────
+function renderItems() {
+  const grid = document.getElementById('itemsGrid');
+  grid.innerHTML = '';
+  MENU.forEach(item => {
+    if (currentFilter !== 'all' && item.cat !== currentFilter) return;
+    const qty = cart[item.id] || 0;
+    const sel = qty > 0 ? 'selected' : '';
+    grid.innerHTML += `
+      <div class="calc-item ${sel}" id="ci-${item.id}" onclick="toggleItem('${item.id}')">
+        <span class="ci-emoji">${item.emoji}</span>
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-cal">${item.cal} kcal${item.p ? ` · P:${item.p}g` : ''}${item.c ? ` · C:${item.c}g` : ''}${item.f ? ` · F:${item.f}g` : ''}</div>
+        ${item.tags.length ? `<div style="font-size:0.7rem;color:var(--wine-mid);margin-bottom:8px">${item.tags.join(' · ')}</div>` : '<div style="margin-bottom:8px"></div>'}
+        <div class="qty-row" onclick="event.stopPropagation()">
+          <button class="qbtn" onclick="changeQty('${item.id}',-1)">−</button>
+          <span class="qnum" id="qn-${item.id}">${qty}</span>
+          <button class="qbtn" onclick="changeQty('${item.id}',1)">+</button>
+        </div>
+      </div>`;
+  });
+}
+
+function filterCat(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('#catTabs .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderItems();
+}
+
+function toggleItem(id) {
+  if ((cart[id] || 0) === 0) {
+    cart[id] = 1;
+  } else {
+    delete cart[id];
+  }
+  renderItems();
+  updateResult();
+}
+
+function changeQty(id, delta) {
+  const cur = cart[id] || 0;
+  const nxt = cur + delta;
+  if (nxt <= 0) { delete cart[id]; }
+  else { cart[id] = nxt; }
+  renderItems();
+  updateResult();
+}
+
+// ── Result panel ───────────────────────
+function updateResult() {
+  const ids = Object.keys(cart);
+  const show = ids.length > 0;
+
+  // Toggle empty / order list
+  document.getElementById('emptyState').style.display  = show ? 'none' : 'block';
+  document.getElementById('orderList').style.display   = show ? 'block' : 'none';
+  document.getElementById('totalSection').style.display= show ? 'block' : 'none';
+  document.getElementById('gaugeWrap').style.display   = show ? 'block' : 'none';
+  document.getElementById('statusChip').style.display  = show ? 'block' : 'none';
+  document.getElementById('macroResult').style.display = show ? 'flex' : 'none';
+  document.getElementById('burnSection').style.display = show ? 'block' : 'none';
+  document.getElementById('funFact').style.display     = show ? 'block' : 'none';
+  document.getElementById('orderCta').style.display    = show ? 'flex' : 'none';
+  document.getElementById('resetBtn').style.display    = show ? 'block' : 'none';
+  document.getElementById('vsTarget').style.display    = show ? 'block' : 'none';
+
+  if (!show) return;
+
+  // Calculate totals
+  let totalCal = 0, totalP = 0, totalC = 0, totalF = 0;
+  let orderHTML = '';
+
+  ids.forEach(id => {
+    const item = MENU.find(m => m.id === id);
+    if (!item) return;
+    const q = cart[id];
+    totalCal += item.cal * q;
+    totalP   += item.p * q;
+    totalC   += item.c * q;
+    totalF   += item.f * q;
+    orderHTML += `
+      <div class="order-row">
+        <span class="or-name">${item.emoji} ${item.name}${q > 1 ? ` ×${q}` : ''}</span>
+        <span class="or-kcal">${item.cal * q} kcal</span>
+        <span class="or-remove" onclick="removeItem('${id}')">✕</span>
+      </div>`;
+  });
+
+  document.getElementById('orderRows').innerHTML = orderHTML;
+  document.getElementById('totalCalNum').textContent = totalCal;
+  document.getElementById('mProtein').textContent    = totalP + 'g';
+  document.getElementById('mCarb').textContent       = totalC + 'g';
+  document.getElementById('mFat').textContent        = totalF + 'g';
+
+  // vs target
+  const diff = totalCal - userTargetKcal;
+  const vsEl = document.getElementById('vsTarget');
+  if (diff === 0) {
+    vsEl.textContent = '🎯 พอดีกับเป้าหมายมื้อเช้าเลย!';
+  } else if (diff > 0) {
+    vsEl.textContent = `⚠️ เกินเป้าหมายมื้อเช้า ${diff} kcal`;
+  } else {
+    vsEl.textContent = `💡 ยังขาดอีก ${Math.abs(diff)} kcal จากเป้าหมายมื้อเช้า`;
+  }
+
+  // Gauge
+  const pct = Math.min((totalCal / (userTargetKcal * 2)) * 100, 100);
+  const ratio = totalCal / userTargetKcal;
+  const bar = document.getElementById('gaugeBar');
+  bar.style.width = pct + '%';
+  bar.className = 'gauge-bar' + (ratio > 1.3 ? ' over' : ratio > 1.1 ? ' warn' : '');
+
+  // Status chip
+  const chip = document.getElementById('statusChip');
+  chip.className = 'status-chip';
+  if (ratio < 0.8) {
+    chip.classList.add('good'); chip.textContent = '👍 น้อยกว่าเป้าหมาย — อาจเพิ่ม Topping ได้';
+  } else if (ratio <= 1.15) {
+    chip.classList.add('good'); chip.textContent = '🎯 อยู่ในช่วงเป้าหมายที่ดี!';
+  } else if (ratio <= 1.4) {
+    chip.classList.add('warn'); chip.textContent = '⚡ สูงกว่าเป้าหมายเล็กน้อย';
+  } else {
+    chip.classList.add('over'); chip.textContent = '🔴 สูงกว่าเป้าหมายมาก';
+  }
+
+  // Burn
+  const burns = [
+    { act:'🚶 เดิน',    calPerMin:4  },
+    { act:'🏃 วิ่ง',    calPerMin:10 },
+    { act:'🚴 ปั่นจักรยาน', calPerMin:8 },
+    { act:'🏊 ว่ายน้ำ',  calPerMin:9  },
+  ];
+  let burnHTML = '';
+  burns.forEach(b => {
+    const mins = Math.round(totalCal / b.calPerMin);
+    const h = Math.floor(mins / 60), m = mins % 60;
+    const label = h > 0 ? `${h} ชม. ${m} นาที` : `${m} นาที`;
+    burnHTML += `<div style="display:flex;justify-content:space-between;font-size:0.82rem;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.08)">
+      <span style="color:var(--rose)">${b.act}</span>
+      <span style="color:var(--white);font-weight:600">${label}</span>
+    </div>`;
+  });
+  document.getElementById('burnRows').innerHTML = burnHTML;
+
+  // Fun fact (random)
+  document.getElementById('funFact').innerHTML = '💡 ' + FACTS[Math.floor(totalCal / 50) % FACTS.length];
+}
+
+function removeItem(id) {
+  delete cart[id];
+  renderItems();
+  updateResult();
+}
+
+function resetAll() {
+  cart = {};
+  renderItems();
+  updateResult();
+}
+
+// ── Comparison grid ────────────────────
+function renderComparison() {
+  document.getElementById('cmpGrid').innerHTML = CMP.map(c => `
+    <div class="cmp-card ${c.jok2go ? 'jok2go-card' : ''}">
+      <div class="cmp-icon">${c.emoji}</div>
+      <div class="cmp-name">${c.name}</div>
+      <div class="cmp-kcal">${c.cal}</div>
+      <div class="cmp-unit">kcal / จาน</div>
+      ${c.jok2go ? '<div class="cmp-badge">ของเรา 🍚</div>' : ''}
+    </div>`).join('');
+}
+
+// ── Init ───────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderItems();
+  renderComparison();
+});
+</script>
 </body>
 </html>
