@@ -366,6 +366,7 @@
     <div class="filter-bar" id="catTabs">
       <button class="filter-btn active" onclick="filterCat('all',this)">ทั้งหมด</button>
       <button class="filter-btn" onclick="filterCat('jok',this)">🍚 โจ๊กหลัก</button>
+      <button class="filter-btn" onclick="filterCat('protein',this)">💪 โปรตีน</button>
       <button class="filter-btn" onclick="filterCat('topping',this)">🥚 Toppings</button>
       <button class="filter-btn" onclick="filterCat('drink',this)">🍵 เครื่องดื่ม</button>
     </div>
@@ -432,6 +433,12 @@
             <div class="mr-val" id="mFat">0g</div>
             <div class="mr-lbl">ไขมัน</div>
           </div>
+        </div>
+        <!-- Sodium -->
+        <div id="sodiumRow" style="display:none; text-align:center; background:rgba(255,255,255,0.07); border-radius:var(--radius-sm); padding:10px 8px; margin-bottom:14px">
+          <div style="font-size:0.68rem; color:var(--rose); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px">โซเดียมรวม</div>
+          <div style="font-family:'Mitr',sans-serif; font-size:1.3rem; font-weight:700; color:#FFD700" id="mSodium">0 mg</div>
+          <div id="sodiumNote" style="font-size:0.7rem; color:var(--rose); margin-top:2px"></div>
         </div>
 
         <!-- Burn equivalent -->
@@ -581,25 +588,63 @@ let cart = {};            // { itemId: quantity }
 let currentFilter = 'all';
 
 // ── Menu Data ─────────────────────────
+// na = sodium in mg
 const MENU = [
-  // โจ๊กหลัก
-  { id:'j1', cat:'jok', emoji:'🍚', name:'โจ๊กไก่ออร์แกนิก',  cal:280, p:22, c:38, f:5,  tags:['Best Seller','High Protein'] },
-  { id:'j2', cat:'jok', emoji:'🐟', name:'โจ๊กปลาทับทิม',      cal:240, p:26, c:30, f:4,  tags:['Omega-3','Low Cal'] },
-  { id:'j3', cat:'jok', emoji:'🥚', name:'โจ๊กไข่ขาว Detox',   cal:210, p:20, c:28, f:2,  tags:['Low Cal','Fitness'] },
-  { id:'j4', cat:'jok', emoji:'🐷', name:'โจ๊กหมูสับ',          cal:310, p:18, c:40, f:8,  tags:['Classic'] },
-  { id:'j5', cat:'jok', emoji:'🍄', name:'โจ๊กเห็ดรวม Vegan',  cal:200, p:8,  c:35, f:3,  tags:['Vegan','Low Cal'] },
-  { id:'j6', cat:'jok', emoji:'🦐', name:'โจ๊กกุ้ง',            cal:260, p:24, c:32, f:4,  tags:['High Protein'] },
-  // Toppings
-  { id:'t1', cat:'topping', emoji:'🥚', name:'ไข่ไก่สด',         cal:70,  p:6,  c:0,  f:5,  tags:[] },
-  { id:'t2', cat:'topping', emoji:'🫚', name:'น้ำมันขิง',         cal:45,  p:0,  c:0,  f:4,  tags:[] },
-  { id:'t3', cat:'topping', emoji:'🧅', name:'กระเทียมเจียว',     cal:30,  p:0,  c:3,  f:0,  tags:[] },
-  { id:'t4', cat:'topping', emoji:'🫘', name:'ถั่วดำต้ม',         cal:40,  p:3,  c:5,  f:0,  tags:['Fiber'] },
-  { id:'t5', cat:'topping', emoji:'🌿', name:'ผักชีลาว',          cal:5,   p:0,  c:0,  f:0,  tags:['Vit C'] },
-  { id:'t6', cat:'topping', emoji:'🌶️', name:'พริกสด',            cal:10,  p:0,  c:2,  f:0,  tags:[] },
-  // เครื่องดื่ม
-  { id:'d1', cat:'drink', emoji:'🍵', name:'ชาเขียวร้อน',        cal:5,   p:0,  c:1,  f:0,  tags:['Antioxidant'] },
-  { id:'d2', cat:'drink', emoji:'🧃', name:'น้ำขิงผึ้ง',          cal:60,  p:0,  c:14, f:0,  tags:['อุ่นท้อง'] },
-  { id:'d3', cat:'drink', emoji:'☕', name:'กาแฟดำ',              cal:5,   p:0,  c:1,  f:0,  tags:[] },
+  // ── โจ๊กหลัก (เลือกชนิดข้าว) ──────────────────────────────
+  { id:'j1', cat:'jok', emoji:'🍚', name:'โจ๊กข้าวหอมมะลิ',
+    cal:210, p:5,  c:44, f:2, na:430,
+    tags:['Classic','สีขาว'] },
+  { id:'j2', cat:'jok', emoji:'🌾', name:'โจ๊กธัญพืช',
+    cal:225, p:7,  c:45, f:3, na:390,
+    tags:['Fiber','สีน้ำตาล'] },
+  { id:'j3', cat:'jok', emoji:'🍇', name:'โจ๊กไรซ์เบอรี่',
+    cal:200, p:5,  c:42, f:2, na:360,
+    tags:['Antioxidant','สีแดงเข้ม'] },
+
+  // ── โปรตีน ────────────────────────────────────────────────
+  { id:'p1', cat:'protein', emoji:'🍗', name:'ไก่ฉีก',
+    cal:80,  p:16, c:0,  f:2, na:200,
+    tags:['High Protein','Low Cal'] },
+  { id:'p2', cat:'protein', emoji:'🐟', name:'ปลากระพง',
+    cal:90,  p:18, c:0,  f:3, na:160,
+    tags:['Omega-3','High Protein'] },
+  { id:'p3', cat:'protein', emoji:'🥚', name:'ไข่ต้ม',
+    cal:70,  p:6,  c:0,  f:5, na:70,
+    tags:['Classic'] },
+  { id:'p4', cat:'protein', emoji:'🫙', name:'ไข่ออนเซ็น',
+    cal:65,  p:6,  c:0,  f:4, na:65,
+    tags:['Soft Texture'] },
+  { id:'p5', cat:'protein', emoji:'🤍', name:'ไข่ขาวล้วน',
+    cal:55,  p:11, c:1,  f:0, na:165,
+    tags:['High Protein','Low Fat'] },
+  { id:'p6', cat:'protein', emoji:'🐷', name:'หมูเด้ง',
+    cal:120, p:12, c:2,  f:7, na:380,
+    tags:['Crispy','Classic'] },
+  { id:'p7', cat:'protein', emoji:'🖤', name:'ไข่เยี่ยวม้า',
+    cal:60,  p:5,  c:1,  f:4, na:350,
+    tags:['Century Egg'] },
+  { id:'p8', cat:'protein', emoji:'🧂', name:'ไข่เค็ม',
+    cal:85,  p:7,  c:1,  f:6, na:660,
+    tags:['Salty'] },
+  { id:'p9', cat:'protein', emoji:'🫀', name:'กระเพาะหมู',
+    cal:70,  p:12, c:2,  f:2, na:280,
+    tags:['High Protein'] },
+  { id:'p10',cat:'protein', emoji:'🦐', name:'กุ้ง',
+    cal:50,  p:10, c:1,  f:1, na:120,
+    tags:['Low Cal','High Protein'] },
+
+  // ── Toppings ──────────────────────────────────────────────
+  { id:'t1', cat:'topping', emoji:'🥚', name:'ไข่ไก่สด',        cal:70,  p:6,  c:0,  f:5, na:70,  tags:[] },
+  { id:'t2', cat:'topping', emoji:'🫚', name:'น้ำมันขิง',        cal:45,  p:0,  c:0,  f:4, na:0,   tags:[] },
+  { id:'t3', cat:'topping', emoji:'🧅', name:'กระเทียมเจียว',    cal:30,  p:0,  c:3,  f:0, na:15,  tags:[] },
+  { id:'t4', cat:'topping', emoji:'🫘', name:'ถั่วดำต้ม',        cal:40,  p:3,  c:5,  f:0, na:5,   tags:['Fiber'] },
+  { id:'t5', cat:'topping', emoji:'🌿', name:'ผักชีลาว',         cal:5,   p:0,  c:0,  f:0, na:5,   tags:['Vit C'] },
+  { id:'t6', cat:'topping', emoji:'🌶️', name:'พริกสด',           cal:10,  p:0,  c:2,  f:0, na:3,   tags:[] },
+
+  // ── เครื่องดื่ม ────────────────────────────────────────────
+  { id:'d1', cat:'drink', emoji:'🍵', name:'ชาเขียวร้อน',       cal:5,   p:0,  c:1,  f:0, na:5,   tags:['Antioxidant'] },
+  { id:'d2', cat:'drink', emoji:'🧃', name:'น้ำขิงผึ้ง',         cal:60,  p:0,  c:14, f:0, na:10,  tags:['อุ่นท้อง'] },
+  { id:'d3', cat:'drink', emoji:'☕', name:'กาแฟดำ',             cal:5,   p:0,  c:1,  f:0, na:5,   tags:[] },
 ];
 
 // Comparison data
@@ -686,7 +731,8 @@ function renderItems() {
         <span class="ci-emoji">${item.emoji}</span>
         <div class="ci-name">${item.name}</div>
         <div class="ci-cal">${item.cal} kcal${item.p ? ` · P:${item.p}g` : ''}${item.c ? ` · C:${item.c}g` : ''}${item.f ? ` · F:${item.f}g` : ''}</div>
-        ${item.tags.length ? `<div style="font-size:0.7rem;color:var(--wine-mid);margin-bottom:8px">${item.tags.join(' · ')}</div>` : '<div style="margin-bottom:8px"></div>'}
+        <div style="font-size:0.7rem;color:#b07d40;margin-bottom:2px">🧂 Na: ${item.na} mg</div>
+        ${item.tags.length ? `<div style="font-size:0.7rem;color:var(--wine-mid);margin-bottom:8px">${item.tags.join(' · ')}</div>` : '<div style="margin-bottom:6px"></div>'}
         <div class="qty-row" onclick="event.stopPropagation()">
           <button class="qbtn" onclick="changeQty('${item.id}',-1)">−</button>
           <span class="qnum" id="qn-${item.id}">${qty}</span>
@@ -734,6 +780,7 @@ function updateResult() {
   document.getElementById('gaugeWrap').style.display   = show ? 'block' : 'none';
   document.getElementById('statusChip').style.display  = show ? 'block' : 'none';
   document.getElementById('macroResult').style.display = show ? 'flex' : 'none';
+  document.getElementById('sodiumRow').style.display   = show ? 'block' : 'none';
   document.getElementById('burnSection').style.display = show ? 'block' : 'none';
   document.getElementById('funFact').style.display     = show ? 'block' : 'none';
   document.getElementById('orderCta').style.display    = show ? 'flex' : 'none';
@@ -743,7 +790,7 @@ function updateResult() {
   if (!show) return;
 
   // Calculate totals
-  let totalCal = 0, totalP = 0, totalC = 0, totalF = 0;
+  let totalCal = 0, totalP = 0, totalC = 0, totalF = 0, totalNa = 0;
   let orderHTML = '';
 
   ids.forEach(id => {
@@ -754,10 +801,11 @@ function updateResult() {
     totalP   += item.p * q;
     totalC   += item.c * q;
     totalF   += item.f * q;
+    totalNa  += item.na * q;
     orderHTML += `
       <div class="order-row">
         <span class="or-name">${item.emoji} ${item.name}${q > 1 ? ` ×${q}` : ''}</span>
-        <span class="or-kcal">${item.cal * q} kcal</span>
+        <span class="or-kcal">${item.cal * q} kcal · Na:${item.na * q}mg</span>
         <span class="or-remove" onclick="removeItem('${id}')">✕</span>
       </div>`;
   });
@@ -767,6 +815,17 @@ function updateResult() {
   document.getElementById('mProtein').textContent    = totalP + 'g';
   document.getElementById('mCarb').textContent       = totalC + 'g';
   document.getElementById('mFat').textContent        = totalF + 'g';
+
+  // Sodium display
+  document.getElementById('mSodium').textContent = totalNa.toLocaleString() + ' mg';
+  const naRef = 2000; // WHO daily limit mg
+  const naPct = Math.round((totalNa / naRef) * 100);
+  let naNote = '';
+  if (totalNa < 300)      naNote = `✅ โซเดียมต่ำมาก (${naPct}% ของค่าแนะนำต่อวัน)`;
+  else if (totalNa < 600) naNote = `✅ โซเดียมอยู่ในระดับดี (${naPct}% ของค่าแนะนำต่อวัน)`;
+  else if (totalNa < 1000)naNote = `⚠️ โซเดียมปานกลาง (${naPct}% ของค่าแนะนำต่อวัน)`;
+  else                     naNote = `🔴 โซเดียมสูง — ค่าแนะนำต่อวัน ≤ 2,000 mg`;
+  document.getElementById('sodiumNote').textContent = naNote;
 
   // vs target
   const diff = totalCal - userTargetKcal;
