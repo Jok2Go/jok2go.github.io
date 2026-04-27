@@ -53,7 +53,7 @@
 
 <!-- Wave down -->
 <svg class="wave-divider" viewBox="0 0 1440 40" preserveAspectRatio="none">
-  <path d="M0,40 C360,0 1080,0 1440,40 L1440,0 L0,0 Z" fill="var(--forest-deep)"/>
+  <path d="M0,40 C360,0 1080,0 1440,40 L1440,0 L0,0 Z" fill="var(--wine-deep)"/>
 </svg>
 
 <!-- Info banner -->
@@ -102,7 +102,7 @@
         <!-- Empty state (sibling to order list — NOT nested inside) -->
         <div class="empty-state" id="emptyState">
           <div class="ei">🍽️</div>
-          <p style="color:var(--sage); font-size:0.88rem">ยังไม่ได้เลือกเมนู<br><small>กดเลือกด้านซ้ายได้เลย</small></p>
+          <p style="color:var(--rose); font-size:0.88rem">ยังไม่ได้เลือกเมนู<br><small>กดเลือกด้านซ้ายได้เลย</small></p>
         </div>
 
         <!-- Order list (shown when items selected) -->
@@ -112,7 +112,7 @@
 
         <!-- Total -->
         <div class="total-display" id="totalSection" style="display:none">
-          <div style="font-size:0.78rem; color:var(--sage); margin-bottom:4px">แคลอรีรวม</div>
+          <div style="font-size:0.78rem; color:var(--rose); margin-bottom:4px">แคลอรีรวม</div>
           <div class="total-num" id="totalCalNum">0</div>
           <div class="total-unit">kcal</div>
         </div>
@@ -162,7 +162,7 @@
         <!-- Reset -->
         <button onclick="resetAll()" id="resetBtn"
           style="width:100%;margin-top:8px;padding:8px;background:none;border:1px solid rgba(255,255,255,0.2);
-                 border-radius:var(--radius-sm);cursor:pointer;color:var(--sage);font-size:0.82rem;display:none">
+                 border-radius:var(--radius-sm);cursor:pointer;color:var(--rose);font-size:0.82rem;display:none">
           ↺ เริ่มใหม่
         </button>
       </div>
@@ -181,7 +181,67 @@
   </div>
 </section>
 
-<!-- Footer -->
+<!-- ══ Footer Top Strip: Social + Delivery ══ -->
+<div class="footer-top-strip">
+  <div class="fts-inner">
+    <!-- Brand + Social -->
+    <div class="fts-left">
+      <div class="fts-brand">
+        <div class="fts-logo-circle">🍚</div>
+        <div>
+          <div class="fts-brand-name">Jok<span>2</span>Go</div>
+          <div class="fts-brand-sub">โจ๊กสุขภาพ ส่งถึงบ้าน</div>
+        </div>
+      </div>
+      <div class="fts-social">
+        <a href="#" class="fts-icon" title="Facebook">F</a>
+        <a href="#" class="fts-icon" title="Instagram">IG</a>
+        <a href="#" class="fts-icon" title="YouTube">▶</a>
+        <a href="#" class="fts-icon" title="TikTok">TT</a>
+        <a href="#" class="fts-icon" title="LINE">L</a>
+      </div>
+    </div>
+    <!-- Delivery -->
+    <div class="fts-right">
+      <div class="fts-delivery-title">สั่งโจ๊ก Delivery</div>
+      <div class="fts-delivery-logos">
+        <div class="dl-badge dl-grab">Grab</div>
+        <div class="dl-badge dl-lman">LINE MAN</div>
+        <div class="dl-badge dl-robin">Robinhood</div>
+        <div class="dl-badge dl-shopee">ShopeeFood</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Footer Contact Strip ══ -->
+<div class="footer-contact-strip">
+  <div class="fcs-grid">
+    <div class="fcs-col">
+      <h4 class="fcs-title">ติดต่อฝ่ายบุคคล</h4>
+      <p class="fcs-sub">(สมัครงาน)</p>
+      <div class="fcs-divider"></div>
+      <div class="fcs-row"><span class="fcs-row-icon">📞</span><span>062-491-6788</span></div>
+      <div class="fcs-row"><span class="fcs-row-icon">✉️</span><span>hr@jok2go.com</span></div>
+    </div>
+    <div class="fcs-col">
+      <h4 class="fcs-title">ติดต่อฝ่ายมีเดีย</h4>
+      <p class="fcs-sub">(รับทำ Content, โฆษณาในเพจ)</p>
+      <div class="fcs-divider"></div>
+      <div class="fcs-row"><span class="fcs-row-icon">💬</span><span>LINE @jok2go</span></div>
+      <div class="fcs-row"><span class="fcs-row-icon">✉️</span><span>media@jok2go.com</span></div>
+    </div>
+    <div class="fcs-col">
+      <h4 class="fcs-title">ติดต่อฝ่ายจัดซื้อ</h4>
+      <p class="fcs-sub">(เสนอขายสินค้า)</p>
+      <div class="fcs-divider"></div>
+      <div class="fcs-row"><span class="fcs-row-icon">📞</span><span>062-491-6788</span></div>
+      <div class="fcs-row"><span class="fcs-row-icon">✉️</span><span>purchasing@jok2go.com</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Footer Bottom ══ -->
 <footer>
   <div class="footer-grid">
     <div>
@@ -222,210 +282,5 @@
 </footer>
 
 <script src="js/main.js"></script>
-<script>
-/* ═══════════════════════════════════════
-   Calorie Calculator — Jok2Go
-   BUG FIX: emptyState is a sibling of orderList,
-   never a child of any container we replace
-═══════════════════════════════════════ */
-
-const MENU = [
-  // โจ๊กหลัก
-  { id:'j1', cat:'jok', emoji:'🍚', name:'โจ๊กไก่ออร์แกนิก',  cal:280, protein:22, carb:38, fat:5,  desc:'ไก่สับ ขิง ผักชี ไข่' },
-  { id:'j2', cat:'jok', emoji:'🐟', name:'โจ๊กปลาทับทิม',     cal:240, protein:26, carb:30, fat:4,  desc:'ปลาทับทิมสด ขิงซอย' },
-  { id:'j3', cat:'jok', emoji:'🐷', name:'โจ๊กหมูสับ',         cal:310, protein:20, carb:40, fat:8,  desc:'หมูสับ กระเทียมเจียว' },
-  { id:'j4', cat:'jok', emoji:'🦐', name:'โจ๊กกุ้งสด',         cal:260, protein:24, carb:32, fat:4,  desc:'กุ้งแม่น้ำสด ขิง เนย' },
-  { id:'j5', cat:'jok', emoji:'🥚', name:'โจ๊กไข่ขาว Detox',  cal:210, protein:20, carb:28, fat:2,  desc:'ไข่ขาว 3 ฟอง สมุนไพร' },
-  { id:'j6', cat:'jok', emoji:'🌱', name:'โจ๊กเต้าหู้ Vegan', cal:220, protein:12, carb:36, fat:4,  desc:'เต้าหู้ไหม เห็ดรวม' },
-  // Toppings
-  { id:'t1', cat:'topping', emoji:'🥚', name:'ไข่ไก่สด',       cal:70,  protein:6,  carb:0,  fat:5,  desc:'+1 ฟอง' },
-  { id:'t2', cat:'topping', emoji:'🫚', name:'น้ำมันขิง',       cal:45,  protein:0,  carb:1,  fat:4,  desc:'เสริมรสชาติ' },
-  { id:'t3', cat:'topping', emoji:'🧅', name:'กระเทียมเจียว',  cal:30,  protein:0,  carb:3,  fat:2,  desc:'กรุบกรอบ' },
-  { id:'t4', cat:'topping', emoji:'🌿', name:'ผักชีลาว',        cal:5,   protein:0,  carb:1,  fat:0,  desc:'สมุนไพรสด' },
-  { id:'t5', cat:'topping', emoji:'🌶️', name:'พริกสด',          cal:10,  protein:0,  carb:2,  fat:0,  desc:'เพิ่มรสเผ็ด' },
-  { id:'t6', cat:'topping', emoji:'🫘', name:'ถั่วดำต้ม',       cal:40,  protein:3,  carb:7,  fat:0,  desc:'ไฟเบอร์สูง' },
-  // เครื่องดื่ม
-  { id:'d1', cat:'drink', emoji:'🍵', name:'ชาเขียวร้อน',      cal:5,   protein:0,  carb:1,  fat:0,  desc:'ไม่มีน้ำตาล' },
-  { id:'d2', cat:'drink', emoji:'🧃', name:'น้ำขิงผึ้ง',       cal:60,  protein:0,  carb:15, fat:0,  desc:'อุ่นกระเพาะ' },
-  { id:'d3', cat:'drink', emoji:'🥛', name:'นมถั่วเหลือง',      cal:80,  protein:6,  carb:10, fat:2,  desc:'ไม่น้ำตาล' },
-];
-
-const BURNS = [
-  { emoji:'🚶', label:'เดินปกติ',     rate:3.5 },
-  { emoji:'🚴', label:'ปั่นจักรยาน',  rate:6.0 },
-  { emoji:'🏃', label:'วิ่ง',          rate:9.0 },
-  { emoji:'🧘', label:'โยคะ',          rate:3.0 },
-];
-
-const COMPARE = [
-  { emoji:'🍚', name:'โจ๊กไก่ Jok2Go', cal:280, highlight:true },
-  { emoji:'🍳', name:'ข้าวมันไก่',      cal:520 },
-  { emoji:'🍜', name:'บะหมี่กึ่งสำเร็จ', cal:380 },
-  { emoji:'🥐', name:'ครัวซองต์+กาแฟ', cal:450 },
-  { emoji:'🍛', name:'ข้าวราดแกง',      cal:600 },
-  { emoji:'🥪', name:'แซนด์วิช',        cal:340 },
-];
-
-const FUN_FACTS = [
-  { max:250,   msg:'🟢 เบามาก! แคลอรีน้อยกว่าส้มตำ 1 จาน — เหมาะวันที่ต้อง light มาก' },
-  { max:400,   msg:'✅ เพอร์เฟกต์! อยู่ใน zone สุขภาพที่นักโภชนาการแนะนำสำหรับมื้อเช้า' },
-  { max:600,   msg:'⚡ ได้พลังงานเต็มที่! เหมาะถ้าวันนั้นต้องออกกำลังกายหนัก' },
-  { max:99999, msg:'🔥 เยอะไปหน่อย! ลองตัด topping บางตัวออกเพื่อให้สมดุลมากขึ้น' },
-];
-
-let cart = {};
-let currentCat = 'all';
-
-function getItem(id) { return MENU.find(m => m.id === id); }
-
-/* ── Render item grid ── */
-function renderGrid() {
-  const items = currentCat === 'all' ? MENU : MENU.filter(m => m.cat === currentCat);
-  document.getElementById('itemsGrid').innerHTML = items.map(item => {
-    const qty = cart[item.id] || 0;
-    return `
-    <div class="calc-item${qty > 0 ? ' selected' : ''}" id="card-${item.id}">
-      <span class="ci-emoji">${item.emoji}</span>
-      <div class="ci-name">${item.name}</div>
-      <div class="ci-cal">${item.cal} kcal &nbsp;·&nbsp; P:${item.protein}g C:${item.carb}g F:${item.fat}g</div>
-      <div class="qty-row">
-        <button class="qbtn" onclick="changeQty('${item.id}',-1)">−</button>
-        <span class="qnum" id="qty-${item.id}">${qty}</span>
-        <button class="qbtn" onclick="changeQty('${item.id}',1)">+</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function filterCat(cat, btn) {
-  currentCat = cat;
-  document.querySelectorAll('#catTabs .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGrid();
-}
-
-function changeQty(id, delta) {
-  cart[id] = Math.max(0, (cart[id] || 0) + delta);
-  if (cart[id] === 0) delete cart[id];
-  renderGrid();
-  updateResult();
-}
-
-/* ── Update result panel ──
-   KEY FIX: emptyState and orderList are siblings.
-   We NEVER replace their container — only toggle display
-   and update orderRows (a child of orderList). ── */
-function updateResult() {
-  const ids = Object.keys(cart);
-  const empty = ids.length === 0;
-
-  // Toggle siblings — safe because we never replace their parent
-  document.getElementById('emptyState').style.display  = empty ? 'block' : 'none';
-  document.getElementById('orderList').style.display   = empty ? 'none'  : 'block';
-  document.getElementById('totalSection').style.display = empty ? 'none'  : 'block';
-  document.getElementById('gaugeWrap').style.display   = empty ? 'none'  : 'block';
-  document.getElementById('statusChip').style.display  = empty ? 'none'  : 'block';
-  document.getElementById('macroResult').style.display = empty ? 'none'  : 'flex';
-  document.getElementById('burnSection').style.display = empty ? 'none'  : 'block';
-  document.getElementById('funFact').style.display     = empty ? 'none'  : 'block';
-  document.getElementById('orderCta').style.display    = empty ? 'none'  : 'flex';
-  document.getElementById('resetBtn').style.display    = empty ? 'none'  : 'block';
-
-  if (empty) return;
-
-  // Tally
-  let totalCal = 0, totalP = 0, totalC = 0, totalF = 0;
-  const rows = [];
-  ids.forEach(id => {
-    const item = getItem(id); const qty = cart[id];
-    totalCal += item.cal * qty;
-    totalP   += item.protein * qty;
-    totalC   += item.carb * qty;
-    totalF   += item.fat * qty;
-    rows.push(`<div class="order-row">
-      <span>${item.emoji} ${item.name}${qty > 1 ? ` ×${qty}` : ''}</span>
-      <span style="font-weight:700">${item.cal * qty} kcal</span>
-    </div>`);
-  });
-  rows.push(`<div class="order-total-row"><span>รวม</span><span>${totalCal} kcal</span></div>`);
-  // Write ONLY into orderRows — emptyState is untouched
-  document.getElementById('orderRows').innerHTML = rows.join('');
-
-  // Animated total
-  animateNum('totalCalNum', totalCal);
-
-  // Gauge
-  const pct = Math.min(100, (totalCal / 1000) * 100);
-  const bar = document.getElementById('gaugeBar');
-  bar.style.width = pct + '%';
-  bar.className = 'gauge-bar' + (totalCal > 700 ? ' over' : totalCal > 500 ? ' warn' : '');
-
-  // Status chip
-  const chip = document.getElementById('statusChip');
-  if (totalCal <= 300)      { chip.textContent = '🟢 เบามาก — เหมาะวันที่ light diet'; chip.className = 'status-chip good'; }
-  else if (totalCal <= 500) { chip.textContent = '✅ สมดุลดีมาก — อยู่ใน zone สุขภาพ'; chip.className = 'status-chip good'; }
-  else if (totalCal <= 700) { chip.textContent = '⚡ พลังงานสูง — OK วันออกกำลังกาย'; chip.className = 'status-chip warn'; }
-  else                       { chip.textContent = '🔴 เยอะมาก — ลองลด topping บางตัว'; chip.className = 'status-chip over'; }
-
-  // Macros
-  document.getElementById('mProtein').textContent = totalP + 'g';
-  document.getElementById('mCarb').textContent    = totalC + 'g';
-  document.getElementById('mFat').textContent     = totalF + 'g';
-
-  // Burn rows
-  document.getElementById('burnRows').innerHTML = BURNS.map(b => {
-    const mins = Math.round(totalCal / b.rate);
-    const h = Math.floor(mins / 60), m = mins % 60;
-    const label = h > 0 ? `${h} ชม ${m} นาที` : `${m} นาที`;
-    return `<div class="burn-row">
-      <span>${b.emoji}</span><span>${b.label}</span>
-      <span class="time">${label}</span>
-    </div>`;
-  }).join('');
-
-  // Fun fact
-  const fact = FUN_FACTS.find(f => totalCal <= f.max);
-  document.getElementById('funFact').innerHTML = `<strong>💬 ทราบไหม?</strong> ${fact.msg}`;
-}
-
-function animateNum(elId, target) {
-  const el = document.getElementById(elId);
-  const start = parseInt(el.textContent) || 0;
-  const steps = 20; let step = 0;
-  const timer = setInterval(() => {
-    step++;
-    el.textContent = Math.round(start + (target - start) * step / steps);
-    if (step >= steps) clearInterval(timer);
-  }, 20);
-}
-
-function resetAll() {
-  cart = {};
-  renderGrid();
-  updateResult();
-}
-
-/* ── Comparison grid ── */
-function renderCompare() {
-  document.getElementById('cmpGrid').innerHTML = COMPARE.map(c => `
-    <div style="background:${c.highlight ? 'var(--forest-pale)' : 'var(--parchment)'};
-         border:2px solid ${c.highlight ? 'var(--forest-deep)' : 'var(--cream-dark)'};
-         border-radius:var(--radius); padding:20px; text-align:center">
-      <div style="font-size:2.2rem; margin-bottom:8px">${c.emoji}</div>
-      <div style="font-size:0.8rem; font-weight:600; color:var(--ink); margin-bottom:4px">${c.name}</div>
-      <div style="font-size:1.5rem; font-weight:800; color:${c.highlight ? 'var(--forest-deep)' : 'var(--ink)'}">${c.cal}</div>
-      <div style="font-size:0.72rem; color:var(--ink-muted)">kcal</div>
-      ${c.highlight ? '<div style="margin-top:6px;background:var(--forest-deep);color:#fff;font-size:0.7rem;padding:2px 10px;border-radius:20px;display:inline-block">แนะนำ</div>' : ''}
-      <div style="margin-top:10px;height:6px;background:var(--cream-dark);border-radius:3px;overflow:hidden">
-        <div style="height:100%;width:${Math.min(100,(c.cal/700)*100)}%;background:${c.cal<=350?'#4CAF50':c.cal<=500?'#FFC107':'#F44336'};border-radius:3px"></div>
-      </div>
-    </div>`).join('');
-}
-
-// Init
-renderGrid();
-updateResult();
-renderCompare();
-</script>
 </body>
 </html>
